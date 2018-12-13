@@ -1,0 +1,6 @@
+*.pdb
+*.obj
+*.pch
+*.exe
+*.cso
+imgui.ini
