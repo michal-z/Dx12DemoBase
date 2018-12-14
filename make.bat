@@ -10,6 +10,7 @@ set DEBUG=/Zi /Od /D_DEBUG /MTd /EHsc
 set LFLAGS=/incremental:no /opt:ref /machine:x64
 set HLSLC=dxc.exe /Ges /O3 /WX /nologo
 
+set CONFIG=%RELEASE%
 if not defined CONFIG set CONFIG=%DEBUG%
 ::/d2cgsummary
 set CFLAGS=%CONFIG% /EHa- /GR- /Gy /Gw /W3 /nologo /I"External" /Bt

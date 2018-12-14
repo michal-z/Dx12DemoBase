@@ -170,7 +170,8 @@ Initialize(HWND Window)
 #endif
     if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_1, IID_PPV_ARGS(&GDevice))))
     {
-        // @Incomplete: Add MessageBox.
+        MessageBox(Window, "This application requires Windows 10 1709 (RS3) or newer.",
+                   "D3D12CreateDevice failed", MB_OK | MB_ICONERROR);
         return;
     }
 

@@ -23,9 +23,9 @@ BeginFrame()
     CmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(BackBuffer, D3D12_RESOURCE_STATE_PRESENT,
                                                                       D3D12_RESOURCE_STATE_RENDER_TARGET));
 
-    Dx::GCmdList->OMSetRenderTargets(1, &BackBufferHandle, FALSE, &Dx::GDepthBufferHandle);
-    Dx::GCmdList->ClearRenderTargetView(BackBufferHandle, XMVECTORF32{ 1.0f, 1.0f, 1.0f, 0.0f }, 0, nullptr);
-    Dx::GCmdList->ClearDepthStencilView(Dx::GDepthBufferHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+    CmdList->OMSetRenderTargets(1, &BackBufferHandle, FALSE, &Dx::GDepthBufferHandle);
+    CmdList->ClearRenderTargetView(BackBufferHandle, XMVECTORF32{ 1.0f, 1.0f, 1.0f, 0.0f }, 0, nullptr);
+    CmdList->ClearDepthStencilView(Dx::GDepthBufferHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 static void
@@ -43,7 +43,7 @@ EndFrame()
 }
 
 static void
-Update(double Time, float DeltaTime)
+UpdateAndRender(double Time, float DeltaTime)
 {
     ImGui::ShowDemoWindow();
 }
@@ -80,7 +80,7 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     for (ID3D12Resource* Resource : Dx::GIntermediateResources)
         SAFE_RELEASE(Resource);
 
-    Dx::GIntermediateResources.clear();
+    Dx::GIntermediateResources.resize(0);
 
 
     for (;;)
@@ -101,10 +101,11 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
             BeginFrame();
             ImGui::NewFrame();
-            Update(Time, DeltaTime);
+            UpdateAndRender(Time, DeltaTime);
             ImGui::Render();
             Gui::Render();
             EndFrame();
+
             Dx::PresentFrame();
         }
     }
